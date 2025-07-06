@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { axiosClient } from "@/helpers/axiosClient";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RightSide() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isEnabled, setIsEnabled] = useState(true);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("First name is required"),
-      lastName: Yup.string().required("Last name is required"),
+      first_name: Yup.string().required("First name is required"),
+      last_name: Yup.string().required("Last name is required"),
       email: Yup.string()
         .email("Invalid email address")
         .required("Email is required"),
@@ -24,8 +28,30 @@ export default function RightSide() {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      console.log("Form submitted:", values);
-      // Call your API here
+      setIsEnabled(false); // Disable button to prevent multiple submissions
+      axiosClient
+        .post("user", values)
+        .then((res) => {
+          console.log("User created successfully:", res.data);
+          toast.success("Account created successfully!");
+          // Redirect to login page after successful registration
+          setTimeout(() => {
+            navigate("/login", { replace: true });
+          }, 2000); // Redirect after 1 second
+        })
+        .catch((err) => {
+          setIsEnabled(true); // Re-enable button on error
+          console.error(
+            "Error creating user:",
+            err.response ? err.response.data : err.message
+          );
+          // Handle error (e.g., show error message)
+          toast.error(
+            err.response && err.response.data
+              ? err.response.data.message || "Failed to create account"
+              : "An error occurred while creating account"
+          );
+        });
     },
   });
 
@@ -46,47 +72,49 @@ export default function RightSide() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label
-                htmlFor="firstName"
+                htmlFor="first_name"
                 className="text-sm font-medium text-gray-700"
               >
                 First name
               </label>
               <input
-                id="firstName"
-                name="firstName"
+                id="first_name"
+                name="first_name"
                 type="text"
                 placeholder="Enter your first name"
-                value={formik.values.firstName}
+                value={formik.values.first_name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl block w-full px-4 mt-2"
               />
-              {formik.touched.firstName && formik.errors.firstName && (
+              {formik.touched.first_name && formik.errors.first_name && (
                 <p className="text-red-500 text-sm">
-                  {formik.errors.firstName}
+                  {formik.errors.first_name}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
               <label
-                htmlFor="lastName"
+                htmlFor="last_name"
                 className="text-sm font-medium text-gray-700"
               >
                 Last name
               </label>
               <input
-                id="lastName"
-                name="lastName"
+                id="last_name"
+                name="last_name"
                 type="text"
                 placeholder="Enter your last name"
-                value={formik.values.lastName}
+                value={formik.values.last_name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl block w-full px-4 mt-2"
               />
-              {formik.touched.lastName && formik.errors.lastName && (
-                <p className="text-red-500 text-sm">{formik.errors.lastName}</p>
+              {formik.touched.last_name && formik.errors.last_name && (
+                <p className="text-red-500 text-sm">
+                  {formik.errors.last_name}
+                </p>
               )}
             </div>
           </div>
@@ -138,6 +166,7 @@ export default function RightSide() {
 
           <button
             type="submit"
+            disabled={!formik.isValid || !formik.dirty || !isEnabled}
             className="w-full bg-purple-600 text-white py-3 rounded-xl font-semibold hover:bg-purple-700"
           >
             Create Account
@@ -153,6 +182,7 @@ export default function RightSide() {
           </p>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

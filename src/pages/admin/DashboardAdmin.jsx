@@ -1,6 +1,6 @@
-import QuickActions from "@/sections/dashboardAdmin/QuickActions";
-import Stats from "@/sections/dashboardAdmin/Stats";
-import Welcome from "@/sections/dashboardAdmin/Welcome";
+import QuickActions from "@/sections/admin/dashboard/QuickActions";
+import Stats from "@/sections/admin/dashboard/Stats";
+import Welcome from "@/sections/admin/dashboard/Welcome";
 import React from "react";
 
 export default function DashboardAdmin() {

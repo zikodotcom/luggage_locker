@@ -28,7 +28,7 @@ export default function QuickActions() {
               variant="outline"
               className="h-20 flex-col gap-2 border-2 border-blue-200 hover:border-blue-500 hover:bg-blue-50 bg-transparent"
             >
-              <Link href="/admin/countries">
+              <Link to="/admin/countries">
                 <Globe className="h-6 w-6 text-blue-600" />
                 <span>Manage Countries</span>
               </Link>
@@ -38,7 +38,7 @@ export default function QuickActions() {
               variant="outline"
               className="h-20 flex-col gap-2 border-2 border-purple-200 hover:border-purple-500 hover:bg-purple-50 bg-transparent"
             >
-              <Link href="/admin/cities">
+              <Link to="/admin/cities">
                 <MapPin className="h-6 w-6 text-purple-600" />
                 <span>Manage Cities</span>
               </Link>
@@ -48,7 +48,7 @@ export default function QuickActions() {
               variant="outline"
               className="h-20 flex-col gap-2 border-2 border-green-200 hover:border-green-500 hover:bg-green-50 bg-transparent"
             >
-              <Link href="/admin/locations">
+              <Link to="/admin/locations">
                 <Package className="h-6 w-6 text-green-600" />
                 <span>Manage Locations</span>
               </Link>

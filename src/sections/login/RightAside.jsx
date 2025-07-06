@@ -1,27 +1,46 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { axiosClient } from "@/helpers/axiosClient";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/feautures/userSlice";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RightAside() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate an API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Handle successful login here
-      console.log("Logged in with:", { email, password });
-    }, 2000);
-  };
-  React.useEffect(() => {
-    // Reset form on component mount
-    setEmail("");
-    setPassword("");
-    setShowPassword(false);
-  }, []);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      try {
+        const response = await axiosClient.post("login", values);
+        dispatch(setUser(response.data.user));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        toast.success("Login successfully!");
+        // Redirect to dashboard or home page after successful login
+        setTimeout(() => {
+          if (response.data.user.role === "USER") {
+            navigate("/dashboard", { replace: true });
+          } else {
+            navigate("/admin/dashboard", { replace: true });
+          }
+        }, 2000); // Redirect after 2 seconds
+      } catch (error) {
+        // handle error
+        console.error("Login failed", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
 
   return (
     <div className="flex-1 flex items-center justify-center p-6">
@@ -43,7 +62,7 @@ export default function RightAside() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={formik.handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label
               htmlFor="email"
@@ -54,9 +73,10 @@ export default function RightAside() {
             <input
               id="email"
               type="email"
+              name="email"
               placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formik.values.email}
+              onChange={formik.handleChange}
               className="h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl block w-full px-4 mt-2"
               required
             />
@@ -70,33 +90,29 @@ export default function RightAside() {
               >
                 Password
               </label>
-              {/* <Link
-                href="/forgot-password"
-                className="text-sm text-purple-600 hover:text-purple-700 font-medium"
-              >
+              {/* <Link to="/forgot-password" className="text-sm text-purple-600 hover:text-purple-700 font-medium">
                 Forgot password?
               </Link> */}
             </div>
             <div className="relative">
               <input
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 className="h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl pr-12 w-full px-4 mt-2"
                 required
               />
               <button
                 type="button"
+                autoComplete="off"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
               >
-                {/* {showPassword ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )} */}
+                {showPassword ? "🙈" : "👁️"}{" "}
+                {/* Replace with icons if needed */}
               </button>
             </div>
           </div>
@@ -106,14 +122,7 @@ export default function RightAside() {
             className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-xl font-medium text-white"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                {/* <Loader2 className="mr-2 h-4 w-4 animate-spin" /> */}
-                Signing in...
-              </>
-            ) : (
-              "Sign In"
-            )}
+            {isLoading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
@@ -129,6 +138,7 @@ export default function RightAside() {
           </p>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./route"; // path to your router file
+
 import "./index.css"; // path to your CSS file
 import "leaflet/dist/leaflet.css";
+import { store } from "@/store/store"; // path to your Redux store
+import { Provider } from "react-redux";
+import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

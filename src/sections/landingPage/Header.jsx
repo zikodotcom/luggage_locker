@@ -51,7 +51,7 @@ export default function Header() {
             </a>
             <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white p-1 rounded">
               <a
-                href="/login"
+                href="/signup"
                 className="text-sm font-medium hover:text-purple-600 transition-colors"
               >
                 Sign Up
