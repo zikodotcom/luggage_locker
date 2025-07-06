@@ -50,7 +50,7 @@ export default function ModelCreate({ isDialogOpen, setIsDialogOpen }) {
           toast.success("City created successfully!");
           resetForm();
           setIsDialogOpen(false); // Close the modal
-          dispatch(addCity(res.data)); // Dispatch action to add country to Redux store
+          dispatch(addCity(res.data)); // Dispatch action to add country to Redux stor
         })
         .catch((err) => {
           setIsEnabled(true);
