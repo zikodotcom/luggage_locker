@@ -120,7 +120,7 @@ export default function ModelUpdate() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectLabel>Countries</SelectLabel>
                   {listCountry.map((country) => (
                     <SelectItem
                       key={country.id}

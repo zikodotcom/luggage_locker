@@ -8,6 +8,8 @@ import DashboardAdmin from "@/pages/admin/DashboardAdmin";
 import Countries from "@/pages/admin/Countries";
 import Cities from "@/pages/admin/Cities";
 import Locations from "@/pages/admin/Locations";
+import Users from "@/pages/admin/Users";
+import Booking from "@/pages/Booking";
 
 export const router = createBrowserRouter([
   { path: "/", Component: Index, errorElement: <div>Error loading page</div> },
@@ -50,5 +52,14 @@ export const router = createBrowserRouter([
     path: "/admin/locations",
     Component: Locations,
     errorElement: <div>Error loading cities management page</div>,
+  },
+  {
+    path: "/admin/users",
+    Component: Users,
+    errorElement: <div>Error loading users management page</div>,
+  },
+  {
+    path: "/booking/:bookingId",
+    Component: Booking,
   },
 ]);

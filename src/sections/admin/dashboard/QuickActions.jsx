@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 export default function QuickActions() {
   return (
-    <div className="lg:col-span-2">
+    <div className="lg:col-span-3">
       <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-xl">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export default function QuickActions() {
               variant="outline"
               className="h-20 flex-col gap-2 border-2 border-orange-200 hover:border-orange-500 hover:bg-orange-50 bg-transparent"
             >
-              <Link href="/admin/users">
+              <Link to="/admin/users">
                 <Users className="h-6 w-6 text-orange-600" />
                 <span>Manage Users</span>
               </Link>

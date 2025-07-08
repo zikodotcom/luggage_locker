@@ -2,30 +2,24 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus } from "lucide-react";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import DataTableCountries from "./DataTable";
 import SearchComp from "@/components/SearchComp";
-import DataTableCities from "./DataTable";
-import ModelCreate from "./ModelCreate";
 import { axiosClient } from "@/helpers/axiosClient";
 import { useDispatch } from "react-redux";
 import { setPlaces } from "@/feautures/placeSlice";
-import ModelUpdate from "./ModelUpdate";
 import Delete from "./Delete";
-import ModelCreateLocker from "./ModelCreateLocker";
-import ModelUpdateLocker from "./ModelUpdateLocker";
-import DeleteLocker from "./DeleteLocker";
+import DataTableUsers from "./DataTable";
+import { setUsers } from "@/feautures/userSlice";
 
 export default function Index() {
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     axiosClient
-      .get("/place")
+      .get("/users")
       .then((res) => {
-        dispatch(setPlaces(res.data));
+        dispatch(setUsers(res.data));
       })
       .catch((err) => {
-        console.error("Failed to fetch places:", err);
+        console.error("Failed to fetch users:", err);
         // Optionally show a toast notification for error
       });
   }, []);
@@ -42,35 +36,15 @@ export default function Index() {
             </Button>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Manage Locations
+                Manage Users
               </h1>
-              <p className="text-gray-600">
-                Add and manage luggage storage locations
-              </p>
             </div>
-          </div>
-          <div>
-            <Button
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-              onClick={() => setIsDialogOpen(true)}
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Place
-            </Button>
           </div>
         </div>
         {/* Search */}
         <SearchComp />
-        <DataTableCities />
-        <ModelCreate
-          isDialogOpen={isDialogOpen}
-          setIsDialogOpen={(value) => setIsDialogOpen(value)}
-        />
-        <ModelCreateLocker />
-        <ModelUpdateLocker />
-        <ModelUpdate />
+        <DataTableUsers />
         <Delete />
-        <DeleteLocker />
       </div>
     </div>
   );

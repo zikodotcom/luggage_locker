@@ -10,6 +10,7 @@ function App() {
   useEffect(() => {
     // Check if user is logged in and redirect accordingly
     const user = localStorage.getItem("user");
+    console.log(user);
     if (user) {
       dispatch(setUser(JSON.parse(user)));
     }

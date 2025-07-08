@@ -1,11 +1,12 @@
 import HeaderDashboard from "@/components/HeaderDashboard";
-import Index from "@/sections/admin/cities/Index";
+import Index from "@/sections/admin/users/Index";
 import React from "react";
 
-export default function Cities() {
+export default function Users() {
   return (
     <>
       <HeaderDashboard />
+
       <Index />
     </>
   );

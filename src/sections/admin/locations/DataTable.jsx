@@ -1,61 +1,24 @@
 import DataTable from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
+
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  setPlaceUpdate,
+  toggleDelete,
+  toggleDeleteLocker,
+  toggleDialog,
+  toggleLockerDialog,
+  toggleLockerUpdateDialog,
+} from "@/feautures/placeSlice";
 import { Badge, Globe, MapPin, Package, Star } from "lucide-react";
 import React from "react";
-
-const filteredLocations = [
-  {
-    id: 1,
-    name: "Central Station Lockers",
-    address: "123 Main St, Downtown",
-    cityName: "Paris",
-    lockerTypes: [
-      { type: "small", total: 10, available: 4 },
-      { type: "large", total: 5, available: 1 },
-    ],
-    rating: 4.8,
-    reviews: 123,
-    status: "active",
-    createdAt: "2024-10-01T08:00:00Z",
-  },
-  {
-    id: 2,
-    name: "Sants Station",
-    address: "456 Plaça Espanya",
-    cityName: "Barcelona",
-    lockerTypes: [
-      { type: "medium", total: 8, available: 0 },
-      { type: "large", total: 4, available: 2 },
-    ],
-    rating: 4.5,
-    reviews: 78,
-    status: "inactive",
-    createdAt: "2024-08-20T14:45:00Z",
-  },
-  {
-    id: 3,
-    name: "Alexanderplatz",
-    address: "10178 Berlin",
-    cityName: "Berlin",
-    lockerTypes: [],
-    rating: null,
-    reviews: 0,
-    status: "maintenance",
-    createdAt: "2024-07-18T11:22:00Z",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
 
 export default function DataTableCities() {
+  const { place } = useSelector((state) => state.place);
+  const dispatch = useDispatch();
   return (
     <DataTable
-      data={filteredLocations}
+      data={place}
       fields={[
         {
           key: "name",
@@ -73,26 +36,7 @@ export default function DataTableCities() {
         {
           key: "cityName",
           label: "City",
-          render: (row) => <Badge variant="outline">{row.cityName}</Badge>,
-        },
-        {
-          key: "lockerTypes",
-          label: "Lockers",
-          render: (row) => {
-            const total = row.lockerTypes.reduce((sum, t) => sum + t.total, 0);
-            const available = row.lockerTypes.reduce(
-              (sum, t) => sum + t.available,
-              0
-            );
-            return (
-              <>
-                {total} total
-                <div className="text-sm text-gray-500">
-                  {available} available
-                </div>
-              </>
-            );
-          },
+          render: (row) => row.city.name,
         },
         {
           key: "rating",
@@ -108,48 +52,104 @@ export default function DataTableCities() {
           ),
         },
         {
-          key: "status",
-          label: "Status",
-          render: (row) => (
-            <Select
-              value={row.status}
-              // onValueChange={(value) => handleStatusChange(row.id, value)}
-            >
-              <SelectTrigger className="w-32">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-                <SelectItem value="maintenance">Maintenance</SelectItem>
-              </SelectContent>
-            </Select>
-          ),
-        },
-        {
           key: "createdAt",
           label: "Created",
-          render: (row) => "11/10/2022",
+          render: (row) => row.createdAt?.split("T")[0] || "N/A",
         },
         {
           key: "actions",
           label: "Actions",
           render: (row) => (
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  dispatch(setPlaceUpdate(row));
+                  dispatch(toggleDialog());
+                }}
+              >
                 Edit
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 className="text-red-600 hover:text-red-700 bg-transparent"
+                onClick={() => {
+                  dispatch(setPlaceUpdate(row));
+                  dispatch(toggleDelete());
+                }}
               >
                 Delete
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-red-600 hover:text-red-700 bg-transparent"
+                onClick={() => {
+                  dispatch(setPlaceUpdate(row));
+                  dispatch(toggleLockerDialog());
+                }}
+              >
+                Add locker
               </Button>
             </div>
           ),
         },
       ]}
+      renderDetails={(row) => (
+        <DataTable
+          data={row.lockers}
+          title="Lockers"
+          fields={[
+            {
+              key: "name",
+              label: "Locker Name",
+            },
+            {
+              key: "price",
+              label: "Price",
+            },
+            {
+              key: "length",
+              label: "Length",
+            },
+            {
+              key: "width",
+              label: "Width",
+            },
+            {
+              key: "actions",
+              label: "Actions",
+              render: (row) => (
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      dispatch(setPlaceUpdate(row));
+                      dispatch(toggleLockerUpdateDialog());
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-red-600 hover:text-red-700 bg-transparent"
+                    onClick={() => {
+                      dispatch(setPlaceUpdate(row));
+                      dispatch(toggleDeleteLocker());
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              ),
+            },
+          ]}
+        />
+      )}
       title="Locations"
       description="Manage luggage storage locations in your network"
       icon={<Package className="h-5 w-5 text-purple-600" />}
