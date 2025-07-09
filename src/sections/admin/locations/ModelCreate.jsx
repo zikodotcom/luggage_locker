@@ -52,9 +52,6 @@ export default function ModelCreate({ isDialogOpen, setIsDialogOpen }) {
         .required("Longitude is required")
         .matches(/^-?\d+(\.\d+)?$/, "Invalid longitude format"),
       cityId: Yup.string().required("City is required"),
-      price: Yup.number()
-        .required("Price is required")
-        .min(0, "Price must be a positive number"),
     }),
     onSubmit: (values, { resetForm }) => {
       setIsEnabled(false);

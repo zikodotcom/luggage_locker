@@ -29,31 +29,25 @@ import {
   Shield,
   Loader2,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { format, differenceInDays, addDays } from "date-fns";
 import Maps from "@/components/Maps";
 import { axiosClient } from "@/helpers/axiosClient";
+import { useSelector } from "react-redux";
 
 export default function Booking() {
+  const {user} = useSelector((state) => state.user);
   const [MOCK_LOCATION, setMOCK_LOCATIONS] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [selectedLocker, setSelectedLocker] = useState();
-  const [dropoffTime, setDropoffTime] = useState("10:00");
-  const [pickupTime, setPickupTime] = useState("18:00");
-  const [isProcessing, setIsProcessing] = useState(false);
+  const navigate = useNavigate();
 
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [cardName, setCardName] = useState("");
-  const [billingAddress, setBillingAddress] = useState({
-    street: "",
-    city: "",
-    zipCode: "",
-    country: "",
-  });
   const [agreeTerms, setAgreeTerms] = useState(false);
 
   //   const locker = MOCK_LOCATION.lockerTypes.find((l) => l.id === selectedLocker);
@@ -65,7 +59,11 @@ export default function Booking() {
 
   const handleBooking = async () => {
     // Implement booking logic here
-    console.log("Booking submitted");
+    if(!user || user.role !== "USER") {
+      navigate("/login");
+      return;
+    }
+    console.log("book")
   };
   const params = useParams();
   useEffect(() => {
@@ -354,16 +352,8 @@ export default function Booking() {
               <Button
                 className="w-full"
                 onClick={handleBooking}
-                disabled={isProcessing || !agreeTerms}
               >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing Payment...
-                  </>
-                ) : (
-                  `Complete Booking - $${subtotal.toFixed(2)}`
-                )}
+                {`Complete Booking - $${subtotal.toFixed(2)}`}
               </Button>
             </CardFooter>
           </Card>

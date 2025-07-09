@@ -69,8 +69,9 @@ export default function ModelCreateLocker() {
     },
   });
   useEffect(() => {
+    if (!isLockerDialogOpen) return;
     formik.setFieldValue("placeId", placeUpdate.id);
-  }, [placeUpdate.id]);
+  }, [placeUpdate, isLockerDialogOpen]);
 
   const renderInputField = (key) => {
     if (key !== "placeId") {

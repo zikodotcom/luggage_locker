@@ -6,7 +6,6 @@ const initialState = {
   isDialogOpen: false,
   isDelete: false,
 };
-
 export const citySlice = createSlice({
   name: "city",
   initialState,

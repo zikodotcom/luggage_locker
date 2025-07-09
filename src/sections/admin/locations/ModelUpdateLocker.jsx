@@ -67,13 +67,15 @@ export default function ModelUpdateLocker() {
     },
   });
   useEffect(() => {
+    if (!isLockerUpdateDialogOpen) return;
+    console.log(placeUpdate.id)
     formik.setFieldValue("id", placeUpdate.id);
     formik.setFieldValue("placeId", placeUpdate.placeId);
     formik.setFieldValue("price", placeUpdate.price || 0);
     formik.setFieldValue("length", placeUpdate.length || 0);
     formik.setFieldValue("width", placeUpdate.width || 0);
     formik.setFieldValue("name", placeUpdate.name || "");
-  }, [placeUpdate.id]);
+  }, [placeUpdate, isLockerUpdateDialogOpen]);
 
   const renderInputField = (key) => {
     if (key !== "placeId") {
