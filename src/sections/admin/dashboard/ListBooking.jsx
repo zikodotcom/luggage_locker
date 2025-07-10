@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { axiosClient } from "@/helpers/axiosClient";
 
-export default function Shortcuts({ bookings }) {
+export default function ListBooking({ bookings }) {
   const [activeBookings, setActiveBookings] = React.useState([]);
   const [completedBookings, setCompletedBookings] = React.useState([]);
   const [cancelledBookings, setCancelledBookings] = React.useState([]);
@@ -21,7 +21,7 @@ export default function Shortcuts({ bookings }) {
   }, [bookings]);
   const handleCancelBooking = (bookingId) => {
     axiosClient
-      .put("/booking", { id: bookingId, status: "CANCELLED" })
+      .put("/booking?is_admin=1", { id: bookingId, status: "CANCELLED" })
       .then((response) => {
         setActiveBookings((prev) =>
           prev.filter((booking) => booking.id !== bookingId)
@@ -51,15 +51,6 @@ export default function Shortcuts({ bookings }) {
                 Cancelled ({cancelledBookings.length})
               </TabsTrigger>
             </TabsList>
-            <Button
-              asChild
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-            >
-              <Link to="/places">
-                <Plus className="h-4 w-4 mr-2" />
-                New Booking
-              </Link>
-            </Button>
           </div>
 
           <TabsContent value="active" className="space-y-4">

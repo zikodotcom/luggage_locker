@@ -22,7 +22,7 @@ export const placeSlice = createSlice({
         (place) => place.id === action.payload.placeId
       );
       if (index !== -1) {
-        state.place[index].lockerTypes.push(action.payload);
+        state.place[index].lockers.push(action.payload);
       }
     },
     updateLocker: (state, action) => {
@@ -30,22 +30,22 @@ export const placeSlice = createSlice({
         (place) => place.id === action.payload.placeId
       );
       if (placeIndex !== -1) {
-        const lockerIndex = state.place[placeIndex].lockerTypes.findIndex(
+        const lockerIndex = state.place[placeIndex].lockers.findIndex(
           (locker) => locker.id === action.payload.id
         );
         if (lockerIndex !== -1) {
-          state.place[placeIndex].lockerTypes[lockerIndex] = action.payload;
+          state.place[placeIndex].lockers[lockerIndex] = action.payload;
         }
       }
     },
     deleteLocker: (state, action) => {
       const placeIndex = state.place.findIndex(
-        (place) => place.id === action.payload.placeId
+        (place) => place.id === state.placeUpdate.placeId
       );
       if (placeIndex !== -1) {
-        state.place[placeIndex].lockerTypes = state.place[
+        state.place[placeIndex].lockers = state.place[
           placeIndex
-        ].lockerTypes.filter((locker) => locker.id !== action.payload.lockerId);
+        ].lockers.filter((locker) => locker.id !== state.placeUpdate.id);
       }
     },
     updatePlace: (state, action) => {

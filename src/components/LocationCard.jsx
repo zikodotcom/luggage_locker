@@ -5,7 +5,7 @@ import { GoLocation } from "react-icons/go";
 export default function LocationCard({ image, location, num_places, price }) {
   return (
     <div className="w-[40%] md:w-[20%] rounded-2xl shadow-2xl ease-in-out transition-all cursor-pointer hover:scale-110">
-      <img src={image} alt="" />
+      <img src={image} alt="" className="h-52" />
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800">{location}</h3>
         <div className="flex justify-between">
@@ -18,7 +18,7 @@ export default function LocationCard({ image, location, num_places, price }) {
           <p className="text-gray-600">
             From{" "}
             <span className="font-bold text-lg bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
-              ${price}
+              MAD{50}
             </span>{" "}
             per day
           </p>
