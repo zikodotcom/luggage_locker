@@ -1,19 +1,9 @@
 import React, { useEffect } from "react";
 import LocationCard from "../../components/LocationCard";
 import { axiosClient } from "@/helpers/axiosClient";
+import { Link } from "react-router-dom";
 const img = "/landing/new-york.jpg";
-export default function Section4() {
-  const [countries, setCountries] = React.useState([]);
-  useEffect(() => {
-    axiosClient
-      .get("/country")
-      .then((response) => {
-        setCountries(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching countries:", error);
-      });
-  }, []);
+export default function Section4({ countries }) {
   return (
     <>
       <section className="w-full py-20 px-5 bg-white">
@@ -34,13 +24,18 @@ export default function Section4() {
         </div>
         <div className="flex flex-wrap justify-between space-y-4">
           {countries.map((country) => (
-            <LocationCard
-              key={country.id}
-              image={`http://localhost:5555/${country.picture}` || img}
-              location={`${country.name}`}
-              num_places={country.num_places}
-              price={country?.price}
-            />
+            <Link
+              className="block w-[40%] md:w-[20%]"
+              to={`/places/${country.id}`}
+            >
+              <LocationCard
+                key={country.id}
+                image={`http://localhost:5555/${country.picture}` || img}
+                location={`${country.name}`}
+                num_places={country.num_places}
+                price={country?.price}
+              />
+            </Link>
           ))}
         </div>
       </section>

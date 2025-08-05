@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Filter, Search } from "lucide-react";
 
-export default function SearchFilter() {
+export default function SearchFilter({ searchLoacation }) {
   return (
     <div className="flex relative space-x-2 p-2 border-b">
       {/* SEARCH AND FILTER PART */}
@@ -12,10 +12,8 @@ export default function SearchFilter() {
         type="search"
         placeholder="Search locations"
         className="pl-8 w-full"
+        onChange={(e) => searchLoacation(e.target.value)}
       />
-      <Button className="cursor-pointer">
-        <Filter />
-      </Button>
     </div>
   );
 }

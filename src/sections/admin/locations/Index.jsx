@@ -59,8 +59,6 @@ export default function Index() {
             </Button>
           </div>
         </div>
-        {/* Search */}
-        <SearchComp />
         <DataTableCities />
         <ModelCreate
           isDialogOpen={isDialogOpen}

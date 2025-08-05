@@ -41,8 +41,6 @@ export default function Index() {
             </div>
           </div>
         </div>
-        {/* Search */}
-        <SearchComp />
         <DataTableUsers />
         <Delete />
       </div>

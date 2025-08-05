@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Bell, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSelector } from "react-redux";
+import { axiosClient } from "@/helpers/axiosClient";
 
 export default function HeaderDashboard() {
   const { user } = useSelector((state) => state.user);
@@ -11,7 +12,14 @@ export default function HeaderDashboard() {
     console.log(user);
   }, [user]);
   const handleLogout = () => {
-    console.log("object");
+    axiosClient
+      .post("/logout")
+      .then(() => {
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
   };
   return (
     <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">

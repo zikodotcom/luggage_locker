@@ -215,7 +215,7 @@ export default function Booking() {
                 {/* Date Selection */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Start Date</Label>
+                    <Label className="mb-2">Start Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" className="w-full text-left">
@@ -233,7 +233,7 @@ export default function Booking() {
                     </Popover>
                   </div>
                   <div>
-                    <Label>End Date</Label>
+                    <Label className="mb-2">End Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" className="w-full text-left">
@@ -317,7 +317,9 @@ export default function Booking() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="expiryDate">Expiry Date</Label>
+                      <Label className="mb-2" htmlFor="expiryDate">
+                        Expiry Date
+                      </Label>
                       <IMaskInput
                         mask="00/00"
                         name="expiryDate"
@@ -337,7 +339,9 @@ export default function Booking() {
                         )}
                     </div>
                     <div>
-                      <Label htmlFor="cvv">CVV</Label>
+                      <Label className="mb-2" htmlFor="cvv">
+                        CVV
+                      </Label>
                       <Input
                         name="cvv"
                         value={formik.values.cvv}
@@ -352,7 +356,9 @@ export default function Booking() {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="cardName">Cardholder Name</Label>
+                    <Label className="mb-2" htmlFor="cardName">
+                      Cardholder Name
+                    </Label>
                     <Input
                       name="cardName"
                       value={formik.values.cardName}

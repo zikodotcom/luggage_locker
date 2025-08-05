@@ -4,8 +4,8 @@ import { GoLocation } from "react-icons/go";
 
 export default function LocationCard({ image, location, num_places, price }) {
   return (
-    <div className="w-[40%] md:w-[20%] rounded-2xl shadow-2xl ease-in-out transition-all cursor-pointer hover:scale-110">
-      <img src={image} alt="" className="h-52" />
+    <div className="w-full rounded-2xl shadow-2xl ease-in-out transition-all cursor-pointer hover:scale-110">
+      <img src={image} alt="" className="h-52 w-full" />
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800">{location}</h3>
         <div className="flex justify-between">

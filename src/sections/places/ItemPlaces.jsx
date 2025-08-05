@@ -5,24 +5,31 @@ import { Card, CardContent } from "@/components/ui/card";
 import { axiosClient } from "@/helpers/axiosClient";
 import { Badge } from "lucide-react";
 import React, { use, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function ItemPlaces() {
   const [MOCK_LOCATIONS, setMOCK_LOCATIONS] = useState([]);
+  const [initialData, setInitialData] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [place, setplace] = useState();
   const handleSelectLocation = (location) => {
     setSelectedLocation(location.id);
     setplace(location);
   };
+  const { placeId } = useParams(); // Get the ID from the URL params
 
   useEffect(() => {
     // Set initial coordinates to the first location if available
     axiosClient
-      .get("/place")
+      .get("/place", {
+        params: {
+          country: placeId, // Use the ID from the URL params
+        },
+      })
       .then((response) => {
         const locations = response.data;
         setMOCK_LOCATIONS(locations);
+        setInitialData(locations);
         if (locations.length > 0) {
           setSelectedLocation(locations[0].id);
           setplace(locations[0]);
@@ -32,12 +39,24 @@ export default function ItemPlaces() {
         console.error("Error fetching locations:", error);
       });
   }, []);
+
+  const searchLoacation = (searchTerm) => {
+    if (!searchTerm) {
+      // Reset to original locations if search term is empty
+      setMOCK_LOCATIONS(initialData);
+      return;
+    }
+    const filteredLocations = MOCK_LOCATIONS.filter((location) =>
+      location.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setMOCK_LOCATIONS(filteredLocations);
+  };
   return (
     <div>
       {/* List places */}
       <div className="flex">
         <div className="divide-y w-[25%] h-[100vh] overflow-auto">
-          <SearchFilter />
+          <SearchFilter searchLoacation={searchLoacation} />
           {MOCK_LOCATIONS.map((location) => (
             <Card
               key={location.id}

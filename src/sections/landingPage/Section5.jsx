@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LocationCard from "../../components/LocationCard";
+import Maps from "@/components/Maps";
+import { axiosClient } from "@/helpers/axiosClient";
 const img = "/landing/new-york.jpg";
 export default function Section5() {
+  const [place, setplace] = React.useState();
+  useEffect(() => {
+    // Set initial coordinates to the first location if available
+    axiosClient
+      .get("/place")
+      .then((response) => {
+        const locations = response.data;
+        if (locations.length > 0) {
+          setplace(locations[0]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching locations:", error);
+      });
+  }, []);
   return (
     <>
       <section className="w-full py-20 bg-gradient-to-br from-purple-50 to-blue-50">
         <div className="container px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
-            <div className="flex justify-center">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl blur-3xl opacity-30" />
-                {/* <Image
-                  src="/placeholder.svg?height=400&width=400"
-                  width={400}
-                  height={400}
-                  alt="Real-time availability map"
-                  className="relative rounded-3xl shadow-2xl"
-                /> */}
-              </div>
+            <div className="flex justify-center z-1">
+              <Maps loc={place} />
             </div>
             <div className="flex flex-col justify-center space-y-6">
               <div className="space-y-4">
