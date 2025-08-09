@@ -7,7 +7,7 @@ export default function Section4({ countries }) {
   return (
     <>
       <section className="w-full py-20 px-5 bg-white">
-        <div className="container px-4 md:px-6">
+        <div className="px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
             <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 border border-purple-200">
               {/* <Globe className="w-4 h-4 mr-2" /> */}

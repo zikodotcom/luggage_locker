@@ -6,7 +6,7 @@ export default function Section2() {
     <>
       {/* Stats Section */}
       <section className="w-full py-16 bg-white">
-        <div className="container px-4 md:px-6">
+        <div className="px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl font-bold text-purple-600 mb-2">

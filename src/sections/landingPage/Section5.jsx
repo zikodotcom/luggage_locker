@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import LocationCard from "../../components/LocationCard";
 import Maps from "@/components/Maps";
 import { axiosClient } from "@/helpers/axiosClient";
 const img = "/landing/new-york.jpg";
@@ -22,7 +21,7 @@ export default function Section5() {
   return (
     <>
       <section className="w-full py-20 bg-gradient-to-br from-purple-50 to-blue-50">
-        <div className="container px-4 md:px-6">
+        <div className="px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             <div className="flex justify-center z-1">
               <Maps loc={place} />
