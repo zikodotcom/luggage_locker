@@ -59,6 +59,7 @@ export default function ModelUpdateLocker() {
           resetForm();
           dispatch(toggleLockerUpdateDialog());
           dispatch(updateLocker(res.data));
+          setIsEnabled(true);
         })
         .catch((err) => {
           setIsEnabled(true);
@@ -68,7 +69,7 @@ export default function ModelUpdateLocker() {
   });
   useEffect(() => {
     if (!isLockerUpdateDialogOpen) return;
-    console.log(placeUpdate.id)
+    console.log(placeUpdate.id);
     formik.setFieldValue("id", placeUpdate.id);
     formik.setFieldValue("placeId", placeUpdate.placeId);
     formik.setFieldValue("price", placeUpdate.price || 0);

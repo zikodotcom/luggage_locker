@@ -20,7 +20,7 @@ export default function DataTableCities() {
         {
           key: "Country",
           label: "Country",
-          render: (row) => row.Country.name,
+          render: (row) => row?.Country?.name,
         },
         {
           key: "locations",

@@ -61,6 +61,7 @@ export default function ModelCreateLocker() {
           resetForm();
           dispatch(toggleLockerDialog());
           dispatch(addLocker(res.data));
+          setIsEnabled(true);
         })
         .catch((err) => {
           setIsEnabled(true);

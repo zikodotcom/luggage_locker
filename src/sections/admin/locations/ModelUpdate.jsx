@@ -65,6 +65,7 @@ export default function ModelUpdate() {
           resetForm();
           dispatch(toggleDialog());
           dispatch(updatePlace(res.data));
+          setIsEnabled(true);
         })
         .catch((err) => {
           setIsEnabled(true);

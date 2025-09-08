@@ -62,6 +62,7 @@ export default function ModelCreate({ isDialogOpen, setIsDialogOpen }) {
           resetForm();
           setIsDialogOpen(false);
           dispatch(addPlace(res.data));
+          setIsEnabled(true);
         })
         .catch((err) => {
           setIsEnabled(true);
