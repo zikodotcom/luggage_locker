@@ -38,6 +38,9 @@ export default function ModelCreate({ isDialogOpen, setIsDialogOpen }) {
     }),
     onSubmit: (values, { resetForm }) => {
       setIsEnabled(false);
+      if (values.picture) {
+        delete values.picture; // Remove picture if not provided
+      }
       axiosClient
         .post("/country", values, {
           headers: {
