@@ -51,6 +51,7 @@ export default function ModelCreate({ isDialogOpen, setIsDialogOpen }) {
           resetForm();
           setIsDialogOpen(false); // Close the modal
           dispatch(addCity(res.data)); // Dispatch action to add country to Redux stor
+          setIsEnabled(true);
         })
         .catch((err) => {
           setIsEnabled(true);
